@@ -1,12 +1,13 @@
 using AI.BaseNpc;
 using AI.Config.Character;
+
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace AI.BaseCharacters.Humans.BaseHunter
+namespace AI.BaseCharacters.Undead.BaseZombie
 {
-    public abstract class BaseHunter : ICharacters
-    { 
+    public abstract class BaseZombie : ICharacters
+    {
         public UnityAction<FsmStatePhase, FsmActionPhase> OnTaskChanged { get; set; }
         
         public CharacterConfig CharConfig { get; set; }
@@ -62,6 +63,4 @@ namespace AI.BaseCharacters.Humans.BaseHunter
         #endregion AI
     }
 }
-
-
 

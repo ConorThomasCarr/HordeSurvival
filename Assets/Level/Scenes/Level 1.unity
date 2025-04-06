@@ -1008,6 +1008,71 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.1, z: 0}
   m_TimeToStationary: 0.5
+--- !u!1001 &208928827
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1481331237565308713, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481331237565308713, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481331237565308713, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481331237565308713, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481331237565308713, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481331237565308713, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481331237565308713, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481331237565308713, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481331237565308713, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1481331237565308713, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2913165603460963123, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
+      propertyPath: m_Name
+      value: Zombie Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2913165603460963123, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8493671894726387567, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
 --- !u!4 &211596859 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5638362828807574334, guid: d256e36a89470fa449fa49e5a0f02681, type: 3}
@@ -1713,7 +1778,7 @@ GameObject:
   - component: {fileID: 351987090}
   - component: {fileID: 351987092}
   - component: {fileID: 351987093}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hunter Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2261,7 +2326,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 423425608}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Weapons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2655,7 +2720,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 493084639}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Muzzle (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3375,7 +3440,7 @@ GameObject:
   - component: {fileID: 789758025}
   - component: {fileID: 789758024}
   - component: {fileID: 789758026}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Magnum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3474,7 +3539,7 @@ GameObject:
   - component: {fileID: 798317526}
   - component: {fileID: 798317528}
   - component: {fileID: 798317527}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Aim Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6821,7 +6886,7 @@ GameObject:
   - component: {fileID: 1542511333}
   - component: {fileID: 1542511332}
   - component: {fileID: 1542511334}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Double Barrel Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6966,7 +7031,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1630942592}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Muzzle (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7156,7 +7221,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1659566755}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Muzzle (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8764,9 +8829,9 @@ GameObject:
   - component: {fileID: 2018953334}
   - component: {fileID: 2018953333}
   - component: {fileID: 2018953332}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Character Body
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8804,7 +8869,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -9483,3 +9548,4 @@ SceneRoots:
   - {fileID: 809057504}
   - {fileID: 1729324108}
   - {fileID: 781280636}
+  - {fileID: 208928827}
