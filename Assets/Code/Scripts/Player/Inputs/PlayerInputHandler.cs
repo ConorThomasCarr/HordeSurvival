@@ -69,10 +69,7 @@ namespace PlayerControls.PlayerHandler
 
         private void MoveCanceled(InputAction.CallbackContext context)
         {
-            if (!WeaponHandler.WeaponInputHandler.Instance._shoot.IsInProgress())
-            {
-                _pacControls.moveAction?.Invoke(Mouse.current.position.ReadValue());
-            }
+            _pacControls.moveAction?.Invoke(Mouse.current.position.ReadValue());
         }  
         
         private void SwapWeaponCanceled(InputAction.CallbackContext context)
