@@ -1060,17 +1060,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Zombie Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 2913165603460963123, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8493671894726387567, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 6193649490296423262, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9dd1a5f95582a084c89f0e66b06e5a90, type: 3}
