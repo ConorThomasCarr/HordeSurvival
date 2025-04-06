@@ -51,7 +51,6 @@ namespace AIUndeadEnemy
             _finiteStateMachine = GetComponent<IFiniteStateMachine>();
             
             _visionSensorMaster = transform.Find("Vision Sensor System").GetComponent<SensorMaster>();
-            _soundSensorMaster = transform.Find("Sound Sensor System").GetComponent<SensorMaster>();
             
             _weaponInventory = GetComponent<WeaponInventory>();
         }
@@ -69,7 +68,6 @@ namespace AIUndeadEnemy
             ActionPhaseChanged += OnActionPhaseChanged;
             
             _visionSensorMaster.enabled = true;
-            _soundSensorMaster.enabled = true;
 
             enabled = true;
         }
@@ -87,7 +85,6 @@ namespace AIUndeadEnemy
             ActionPhaseChanged -= OnActionPhaseChanged;
 
             _visionSensorMaster.enabled = false;
-            _soundSensorMaster.enabled = false;
             
             enabled = false;
         }
