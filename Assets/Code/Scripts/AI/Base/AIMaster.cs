@@ -9,6 +9,8 @@ public class AIMaster : MonoBehaviour
    
      private IFiniteActionMachine _finiteActionMachine;
      
+     private WeaponInventory _weaponInventory;
+     
      private bool _initialized;
 
      private void Awake()
@@ -16,7 +18,7 @@ public class AIMaster : MonoBehaviour
           _npc = GetComponent<INpc>();
           _finiteStateMachine = gameObject.GetComponent<IFiniteStateMachine>();
           _finiteActionMachine = gameObject.GetComponent<IFiniteActionMachine>();
-         
+          _weaponInventory = GetComponent<WeaponInventory>();
      }
 
      private void OnDisable()
@@ -28,6 +30,7 @@ public class AIMaster : MonoBehaviour
           
           _finiteStateMachine?.Disable();
           _finiteActionMachine?.Disable();
+          _weaponInventory.enabled = false;
      }
 
      private void OnEnable()
@@ -36,6 +39,7 @@ public class AIMaster : MonoBehaviour
           
           _finiteStateMachine?.Enable();
           _finiteActionMachine?.Enable();
+          _weaponInventory.enabled = true;
           
           _finiteStateMachine?.InitializeFiniteStateMachine();
           _finiteActionMachine?.InitializeFiniteActionMachine();
@@ -43,6 +47,7 @@ public class AIMaster : MonoBehaviour
           if (_initialized)
           {
                _npc?.InitializeFsmSystem?.Invoke();
+               _npc?.InitializeWeapons.Invoke();
           }
      }
 
@@ -51,6 +56,7 @@ public class AIMaster : MonoBehaviour
           _npc.InitializeConstruction?.Invoke();
           _npc.InitializeConfigs?.Invoke();
           _npc.InitializeFsmSystem?.Invoke();
+          _npc?.InitializeWeapons.Invoke();
           
           _initialized = true;
      }

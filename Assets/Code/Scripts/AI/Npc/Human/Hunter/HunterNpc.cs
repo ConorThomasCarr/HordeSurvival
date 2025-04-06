@@ -23,15 +23,18 @@ public class HunterNpc : MonoBehaviour, IHumanNpc
     public UnityAction <ICharacters> InitializeNpc { get; set; }
     public UnityAction InitializeConfigs { get; set; }
     public UnityAction InitializeFsmSystem{ get; set; }
+    
+    public UnityAction InitializeWeapons{ get; set; }
     public UnityAction<FsmStatePhase> StatePhaseChanged { get; set; }
     public  UnityAction<FsmActionPhase> ActionPhaseChanged { get; set; }
-    
     private FsmStatePhase StatePhase {get; set;}
     private FsmActionPhase ActionPhase {get; set;}
     
     private IFiniteStateMachine _finiteStateMachine;
       
     private IFiniteActionMachine _finiteActionMachine;
+
+    private WeaponInventory _weaponInventory;
     
     private NavMeshAgent _agent;
     public void Awake()
@@ -42,6 +45,7 @@ public class HunterNpc : MonoBehaviour, IHumanNpc
             
         _finiteActionMachine = GetComponent<IFiniteActionMachine>();
         _finiteStateMachine = GetComponent<IFiniteStateMachine>();
+        _weaponInventory = GetComponent<WeaponInventory>();
     }
 
     
@@ -52,6 +56,8 @@ public class HunterNpc : MonoBehaviour, IHumanNpc
            
         InitializeConfigs += OnInitializeConfigs;
         InitializeFsmSystem += OnInitializeFsmSystem;
+        InitializeWeapons += OnInitializeWeapons;
+        
             
         StatePhaseChanged += OnStatePhaseChanged;
         ActionPhaseChanged += OnActionPhaseChanged;
@@ -66,6 +72,7 @@ public class HunterNpc : MonoBehaviour, IHumanNpc
            
         InitializeConfigs -= OnInitializeConfigs;
         InitializeFsmSystem -= OnInitializeFsmSystem;
+        InitializeWeapons += OnInitializeWeapons;
  
             
         StatePhaseChanged -= OnStatePhaseChanged;
@@ -120,6 +127,11 @@ public class HunterNpc : MonoBehaviour, IHumanNpc
     {
         _finiteStateMachine.EnterStatePhase(FsmStatePhase.None);
         _finiteActionMachine.EnterActionPhase(FsmActionPhase.None);
+    }
+    
+    private void OnInitializeWeapons()
+    {
+        _weaponInventory?.InitializeWeapons();
     }
     
     public void Start()

@@ -11,7 +11,9 @@ namespace AI.BaseNpc
         UnityAction<FsmActionPhase> ActionPhaseChanged { get; set; }
         UnityAction <ICharacters> InitializeNpc { get; set; } 
         UnityAction InitializeConfigs { get; set; }
-        UnityAction InitializeFsmSystem{ get; set; }
+        UnityAction InitializeFsmSystem{ get; set; } 
+        
+        UnityAction InitializeWeapons{ get; set; }
 
         void Enable();
         
