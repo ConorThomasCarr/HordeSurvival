@@ -20,6 +20,10 @@ namespace PlayerControls.PointAndClickControls
 
             if (Physics.Raycast(ray, out var hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
+                var evtOnMoveCharacter = AIEvents.OnMoveCharacter;
+                evtOnMoveCharacter.Position = hit.point;
+                EventManager.Broadcast(evtOnMoveCharacter);
+                
                 Debug.Log(hit.point);
             }
         }
