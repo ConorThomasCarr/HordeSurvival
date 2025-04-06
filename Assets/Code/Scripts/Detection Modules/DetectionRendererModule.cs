@@ -27,7 +27,7 @@ public class DetectionRendererModule : MonoBehaviour
         _showMeshCoroutine = ShowMeshCoroutine();
         _hideMeshCoroutine = HideMeshCoroutine();
         
-        _characterMaterial = GetComponentInChildren<Renderer>().material;
+        _characterMaterial = GetComponent<Renderer>().material;
     }
     
 

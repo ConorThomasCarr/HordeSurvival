@@ -36,6 +36,8 @@ public class HunterNpc : MonoBehaviour, IHumanNpc
 
     private WeaponInventory _weaponInventory;
     
+    private SensorMaster _visionSensorMaster;
+    
     private NavMeshAgent _agent;
     public void Awake()
     {
@@ -46,6 +48,8 @@ public class HunterNpc : MonoBehaviour, IHumanNpc
         _finiteActionMachine = GetComponent<IFiniteActionMachine>();
         _finiteStateMachine = GetComponent<IFiniteStateMachine>();
         _weaponInventory = GetComponent<WeaponInventory>();
+        
+        _visionSensorMaster = transform.GetChild(0).Find("Vision Sensor System").GetComponent<SensorMaster>();
     }
 
     
@@ -57,10 +61,11 @@ public class HunterNpc : MonoBehaviour, IHumanNpc
         InitializeConfigs += OnInitializeConfigs;
         InitializeFsmSystem += OnInitializeFsmSystem;
         InitializeWeapons += OnInitializeWeapons;
-        
             
         StatePhaseChanged += OnStatePhaseChanged;
         ActionPhaseChanged += OnActionPhaseChanged;
+        
+        _visionSensorMaster.enabled = true;
         
         enabled = true;
     }
@@ -77,6 +82,8 @@ public class HunterNpc : MonoBehaviour, IHumanNpc
             
         StatePhaseChanged -= OnStatePhaseChanged;
         ActionPhaseChanged -= OnActionPhaseChanged;
+
+        _visionSensorMaster.enabled = false;
         
         enabled = false;
     }

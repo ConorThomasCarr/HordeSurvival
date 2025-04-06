@@ -35,8 +35,8 @@ namespace AIUndeadEnemy
         private IFiniteStateMachine _finiteStateMachine;
         
         private IFiniteActionMachine _finiteActionMachine;
-        
-        private SensorMaster _visionSensorMaster, _soundSensorMaster;
+
+        private SensorMaster _visionSensorMaster;
         
         private WeaponInventory _weaponInventory;
         

@@ -20,6 +20,7 @@ namespace PlayerControls.PlayerHandler
         private PlayerCharacterController _pcControls;
         private PlayerGamepadMouseController _pgmControls;
         private WeaponInventory _weaponInventory;
+        
 
         private bool HasGamepad ()
         {
@@ -31,7 +32,8 @@ namespace PlayerControls.PlayerHandler
             _pacControls = FindFirstObjectByType<PlayerPointAndClickController>();
             _pcControls = FindFirstObjectByType<PlayerCharacterController>();
             _pgmControls = FindFirstObjectByType<PlayerGamepadMouseController>();
-            _weaponInventory = FindFirstObjectByType<WeaponInventory>();
+          
+            _weaponInventory = GameObject.FindWithTag("Player").transform.parent.GetComponent<WeaponInventory>();
             
             _move = InputSystem.actions.FindAction("Move");
             _cursor = InputSystem.actions.FindAction("Cursor");
@@ -67,7 +69,10 @@ namespace PlayerControls.PlayerHandler
 
         private void MoveCanceled(InputAction.CallbackContext context)
         {
-            _pacControls.moveAction?.Invoke(Mouse.current.position.ReadValue());
+            if (!WeaponHandler.WeaponInputHandler.Instance._shoot.IsInProgress())
+            {
+                _pacControls.moveAction?.Invoke(Mouse.current.position.ReadValue());
+            }
         }  
         
         private void SwapWeaponCanceled(InputAction.CallbackContext context)

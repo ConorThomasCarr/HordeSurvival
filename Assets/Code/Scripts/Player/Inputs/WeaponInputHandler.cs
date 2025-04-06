@@ -7,19 +7,28 @@ namespace PlayerControls.WeaponHandler
 {
     public class WeaponInputHandler : MonoBehaviour
     {
+        public static WeaponInputHandler Instance;
+        
         private WeaponInventory _weaponInventory;
         
-        private InputAction _shoot;
-        private InputAction _aim;
-        private InputAction _reload;
+        public InputAction _shoot { get; set; }
+       
+        public InputAction _aim{ get; set; }
+       
+        public InputAction _reload{ get; set; }
         
         private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            
             _shoot = InputSystem.actions.FindAction("Shoot");
             _aim = InputSystem.actions.FindAction("Aim");
             _reload = InputSystem.actions.FindAction("Reload");
 
-            _weaponInventory = FindFirstObjectByType<WeaponInventory>();
+            _weaponInventory = GameObject.FindWithTag("Player").transform.parent.GetComponent<WeaponInventory>();
         }
 
 
