@@ -1,6 +1,9 @@
 using System;
+using Unity.Burst.Intrinsics;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Weapon.BaseGun.BaseMagnum.Magnum
 {
@@ -8,10 +11,10 @@ namespace Weapon.BaseGun.BaseMagnum.Magnum
     {
         private float _nextFire = 0.0f;
 
-        private bool _isAiming;
-
-        private int _ammoUsed = 0;
-
+        private float _nextReload = 0.0f;
+        
+        private bool _isAiming;   
+        
         public override void InitializeEvents()
         {
             base.InitializeEvents();
@@ -19,7 +22,7 @@ namespace Weapon.BaseGun.BaseMagnum.Magnum
 
         public override void Shoot()
         {
-            if (CanShoot() && _ammoUsed < weaponConfig.CoreConfig.magazineCapacity)
+            if (CanShoot())
             {
                 var projectilePrefabOne = BulletObjectPool.Instance.GetProjectilesPooledObject();
                 BulletObjectPool.Instance.RemoveProjectilesPooledObject(projectilePrefabOne);
@@ -29,34 +32,50 @@ namespace Weapon.BaseGun.BaseMagnum.Magnum
                     projectilePrefabOne.enabled = true;
                     projectilePrefabOne.gameObject.SetActive(true);
 
-                    projectilePrefabOne.transform.position = weaponConfig.GeneralConfig.MuzzleOne.position;
+                    projectilePrefabOne.transform.position = WeaponConfig.GeneralConfig.MuzzleOne.position;
 
                     projectilePrefabOne.transform.rotation =
-                        Quaternion.LookRotation(GetShotDirectionWithinSpread(weaponConfig.GeneralConfig.MuzzleOne));
+                        Quaternion.LookRotation(GetShotDirectionWithinSpread(WeaponConfig.GeneralConfig.MuzzleOne));
                 }
 
-                projectilePrefabOne.Shoot(this, weaponConfig.GeneralConfig.Parent);
+                projectilePrefabOne.Shoot(this, WeaponConfig.GeneralConfig.Parent);
 
                 _nextFire = Time.time + 0.5f;
-                _ammoUsed++;
 
+                magazineSize -= 1;
             }
         }
 
         public override void Reload()
         {
-            _ammoUsed = 0;
+            if (!CanReload() && isReloading)
+            {
+                int ammoRemaining = WeaponConfig.CoreConfig.magazineCapacity  - magazineSize ;
+                
+                maxAmmo -= ammoRemaining;
+                magazineSize += ammoRemaining;
+                _nextReload = Time.time + 0.5f;
+
+                isReloading = false;
+            }
+            
+            if (CanReload() && !isReloading)
+            {
+                isReloading = true;
+            }
+
+           
         }
 
         public override void HasAim()
         {
-            WeaponSpread -= 5 * Time.deltaTime;
-            AimAngle -= 10 * Time.deltaTime;
+            WeaponSpread -= WeaponConfig.CoreConfig.spreadSpeed * Time.deltaTime;
+            AimAngle -=  WeaponConfig.CoreConfig.aimSpeed * Time.deltaTime;
 
-            AimAngle = Mathf.Clamp(AimAngle, weaponConfig.CoreConfig.WeaponRangeMinAngle,
-                weaponConfig.CoreConfig.WeaponRangeMaxAngle);
-            WeaponSpread = Mathf.Clamp(WeaponSpread, weaponConfig.CoreConfig.WeaponSpreadMinAngle,
-                weaponConfig.CoreConfig.WeaponSpreadMaxAngle);
+            AimAngle = Mathf.Clamp(AimAngle, WeaponConfig.CoreConfig.WeaponRangeMinAngle,
+                WeaponConfig.CoreConfig.WeaponRangeMaxAngle);
+            WeaponSpread = Mathf.Clamp(WeaponSpread, WeaponConfig.CoreConfig.WeaponSpreadMinAngle,
+                WeaponConfig.CoreConfig.WeaponSpreadMaxAngle);
 
             _isAiming = true;
         }
@@ -64,13 +83,13 @@ namespace Weapon.BaseGun.BaseMagnum.Magnum
 
         public override void HasNoAim()
         {
-            WeaponSpread += 5 * Time.deltaTime;
-            AimAngle += 10 * Time.deltaTime;
+            WeaponSpread += WeaponConfig.CoreConfig.spreadSpeed * Time.deltaTime;
+            AimAngle +=  WeaponConfig.CoreConfig.aimSpeed * Time.deltaTime;
 
-            AimAngle = Mathf.Clamp(AimAngle, weaponConfig.CoreConfig.WeaponRangeMinAngle,
-                weaponConfig.CoreConfig.WeaponRangeMaxAngle);
-            WeaponSpread = Mathf.Clamp(WeaponSpread, weaponConfig.CoreConfig.WeaponSpreadMinAngle,
-                weaponConfig.CoreConfig.WeaponSpreadMaxAngle);
+            AimAngle = Mathf.Clamp(AimAngle, WeaponConfig.CoreConfig.WeaponRangeMinAngle,
+                WeaponConfig.CoreConfig.WeaponRangeMaxAngle);
+            WeaponSpread = Mathf.Clamp(WeaponSpread, WeaponConfig.CoreConfig.WeaponSpreadMinAngle,
+                WeaponConfig.CoreConfig.WeaponSpreadMaxAngle);
 
             _isAiming = false;
         }
@@ -78,14 +97,20 @@ namespace Weapon.BaseGun.BaseMagnum.Magnum
         public override bool CanAim()
         {
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            return WeaponSpread == weaponConfig.CoreConfig.WeaponSpreadMaxAngle && _isAiming == false;
+            return WeaponSpread == WeaponConfig.CoreConfig.WeaponSpreadMaxAngle && _isAiming == false;
         }
 
         public override bool CanShoot()
         {
-            return (Time.time > _nextFire && _isAiming);
+            return (Time.time > _nextFire && _isAiming && magazineSize > 0 && maxAmmo > 0);
         }
 
+        
+        public override bool CanReload()
+        {
+            return (Time.time > _nextReload && !isReloading && magazineSize <= WeaponConfig.CoreConfig.magazineCapacity && maxAmmo <= WeaponConfig.CoreConfig.maxAmmoCapacity && maxAmmo != 0);
+        }
+        
         private Vector3 GetShotDirectionWithinSpread(Transform shootTransform)
         {
             var deltaAngleRatio = WeaponSpread / 180f;
@@ -95,12 +120,15 @@ namespace Weapon.BaseGun.BaseMagnum.Magnum
 
             return spreadWorldDirection;
         }
-
+        
         public override Mesh AimMesh(Transform transform)
         {
-            var mesh = new Mesh();
+            var mesh = new Mesh
+            {
+                name = "Aim Mesh"
+            };
 
-            var numTriangles = (32 * 10) + 2 + 2;
+            var numTriangles = (128 * 10) + 2 + 2;
             var numVertices = numTriangles * 3;
 
             var vertices = new Vector3[numVertices];
@@ -109,24 +137,23 @@ namespace Weapon.BaseGun.BaseMagnum.Magnum
             vertices[0] = Vector3.zero;
 
             var currentAngle = -((AimAngle / 2) * Mathf.Deg2Rad);
-            var deltaAngle = (((AimAngle / 2) * Mathf.Deg2Rad) * 2) / 32;
+            var deltaAngle = (((AimAngle / 2) * Mathf.Deg2Rad) * 2) / 128;
 
-            for (int i = 0; i < 32; i++)
+            for (int i = 0; i < 128; i++)
             {
                 var sine = Mathf.Sin(currentAngle);
                 var cosine = Mathf.Cos(currentAngle);
-
+                
                 var directionality = (transform.forward * cosine) + (transform.right * sine);
                 var forward = (Vector3.forward * cosine) + (Vector3.right * sine);
 
-                if (Physics.Raycast(new Vector3(transform.position.x, 2, transform.position.z), directionality,
-                        out var hit, 500, LayerMask.GetMask("Default")))
+                if (Physics.Raycast(transform.position, directionality, out var hit, 50, LayerMask.GetMask("Wall")))
                 {
                     vertices[i + 1] = forward * hit.distance;
                 }
                 else
                 {
-                    vertices[i + 1] = forward * 500;
+                    vertices[i + 1] = forward * 50;
                 }
 
                 currentAngle += deltaAngle;
@@ -138,10 +165,12 @@ namespace Weapon.BaseGun.BaseMagnum.Magnum
                 triangles[i + 1] = j + 1;
                 triangles[i + 2] = j + 2;
             }
-
+            
             mesh.vertices = vertices;
             mesh.triangles = triangles;
-
+            mesh.RecalculateBounds();
+            mesh.RecalculateTangents();
+            mesh.RecalculateNormals();
             return mesh;
         }
     }

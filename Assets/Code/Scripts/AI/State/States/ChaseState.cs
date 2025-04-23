@@ -86,7 +86,7 @@ public class ChaseState : BaseState
 
     private bool AtDestination()
     {
-        if (CharacterConfig.NavmeshConfig.Agent.remainingDistance <= 2)
+        if (CharacterConfig.NavmeshConfig.Agent.remainingDistance <= 15)
         {
             return true;
         }
@@ -159,8 +159,6 @@ public class ChaseState : BaseState
     {
         if ( onDiscontinueStateToCombat.Sender == CharacterConfig.NpcGeneralConfig.Name)
         {
-            Debug.Log( onDiscontinueStateToCombat.Sender + ": On Discontinue State To Combat");
-            
             var evtOnChangeTask = AITaskEvents.OnChangeTask;
             evtOnChangeTask.state = StateConfig.StateList[3];
             EventManager.Broadcast(evtOnChangeTask);

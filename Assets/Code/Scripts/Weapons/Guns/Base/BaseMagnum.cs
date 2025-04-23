@@ -7,12 +7,24 @@ namespace Weapon.BaseGun.BaseMagnum
         public float WeaponSpread {get; set;}
     
         public float AimAngle {get; set;}
+        
+        public int magazineSize {get; set;}
+        
+        public int maxAmmo {get; set;}
+        
+        public bool isReloading {get; set;}
     
-        public WeaponConfig weaponConfig {get; set;}
+        public WeaponConfig WeaponConfig {get; set;}
 
         public virtual void InitializeEvents() { }
 
-        public virtual void InitializeConfig(WeaponConfig weaponData) { weaponConfig = weaponData; }
+        public virtual void InitializeConfig(WeaponConfig weaponConfig)
+        {
+            WeaponConfig = weaponConfig;
+            
+            magazineSize = weaponConfig.CoreConfig.magazineCapacity;
+            maxAmmo = weaponConfig.CoreConfig.maxAmmoCapacity;
+        }
         
         public virtual void Shoot() { }
     
@@ -23,12 +35,14 @@ namespace Weapon.BaseGun.BaseMagnum
         public virtual void HasAim(){ }
     
         public virtual void HasNoAim() { }
-
-        public virtual bool CanShoot() { return false; }
-    
+        
         public virtual bool CanAim() {return false;}
     
-        public virtual  bool IsAiming() { return false; }
+        public virtual bool IsAiming() { return false; }
+        
+        public virtual bool CanShoot() { return false; }
+        
+        public virtual bool CanReload() { return false; }
 
         public virtual Mesh AimMesh(Transform transform
         ) { return null; }

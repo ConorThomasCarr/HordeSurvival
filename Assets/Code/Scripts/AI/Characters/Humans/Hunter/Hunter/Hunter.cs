@@ -23,8 +23,6 @@ namespace AI.BaseCharacters.Humans.BaseHunter.Hunter
         public override void InitializeNpc(INpc iNpc)
         {
             Npc = (IHumanNpc)iNpc;
-            
-            Debug.Log(Npc);
         }
 
         public override void InitializeEvents()

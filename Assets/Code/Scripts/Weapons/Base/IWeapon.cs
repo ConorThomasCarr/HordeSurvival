@@ -6,7 +6,7 @@ namespace Weapon.BaseWeapon
 {
     public interface IWeapon
     {
-        WeaponConfig WeaponData { get; set; } 
+        WeaponConfig WeaponConfig {get; set;}
         
         IGun WeaponInterface {get; set;}
     

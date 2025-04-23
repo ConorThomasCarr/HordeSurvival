@@ -18,7 +18,7 @@ namespace Weapon.BaseGun.BaseDoubleBarrelShotgun.DoubleBarrelShotgun
 
         public override void Shoot()
         {
-            if (CanShoot() && _ammoUsed < weaponConfig.CoreConfig.magazineCapacity)
+            if (CanShoot() && _ammoUsed < WeaponConfig.CoreConfig.magazineCapacity)
             {
                 var projectilePrefabOne = BulletObjectPool.Instance.GetProjectilesPooledObject();
                 BulletObjectPool.Instance.RemoveProjectilesPooledObject(projectilePrefabOne);
@@ -31,10 +31,10 @@ namespace Weapon.BaseGun.BaseDoubleBarrelShotgun.DoubleBarrelShotgun
                     projectilePrefabOne.enabled = true;
                     projectilePrefabOne.gameObject.SetActive(true);
 
-                    projectilePrefabOne.transform.position = weaponConfig.GeneralConfig.MuzzleOne.position;
+                    projectilePrefabOne.transform.position = WeaponConfig.GeneralConfig.MuzzleOne.position;
 
                     projectilePrefabOne.transform.rotation =
-                        Quaternion.LookRotation(GetShotDirectionWithinSpread(weaponConfig.GeneralConfig.MuzzleOne));
+                        Quaternion.LookRotation(GetShotDirectionWithinSpread(WeaponConfig.GeneralConfig.MuzzleOne));
                 }
                 
                 if (projectilePrefabTwo != null)
@@ -42,15 +42,15 @@ namespace Weapon.BaseGun.BaseDoubleBarrelShotgun.DoubleBarrelShotgun
                     projectilePrefabTwo.enabled = true;
                     projectilePrefabTwo.gameObject.SetActive(true);
 
-                   projectilePrefabTwo.transform.position = weaponConfig.GeneralConfig.MuzzleOne.position;
+                   projectilePrefabTwo.transform.position = WeaponConfig.GeneralConfig.MuzzleOne.position;
 
                    projectilePrefabTwo.transform.rotation =
-                        Quaternion.LookRotation(GetShotDirectionWithinSpread(weaponConfig.GeneralConfig.MuzzleTwo));
+                        Quaternion.LookRotation(GetShotDirectionWithinSpread(WeaponConfig.GeneralConfig.MuzzleTwo));
                 }
 
-                projectilePrefabOne.Shoot(this, weaponConfig.GeneralConfig.Parent);
+                projectilePrefabOne.Shoot(this, WeaponConfig.GeneralConfig.Parent);
                 
-                projectilePrefabTwo.Shoot(this, weaponConfig.GeneralConfig.Parent);
+                projectilePrefabTwo.Shoot(this, WeaponConfig.GeneralConfig.Parent);
 
                 _nextFire = Time.time + 0.5f;
                 _ammoUsed += 2;
@@ -68,10 +68,10 @@ namespace Weapon.BaseGun.BaseDoubleBarrelShotgun.DoubleBarrelShotgun
             WeaponSpread -= 5 * Time.deltaTime;
             AimAngle -= 10 * Time.deltaTime;
 
-            AimAngle = Mathf.Clamp(AimAngle, weaponConfig.CoreConfig.WeaponRangeMinAngle,
-                weaponConfig.CoreConfig.WeaponRangeMaxAngle);
-            WeaponSpread = Mathf.Clamp(WeaponSpread, weaponConfig.CoreConfig.WeaponSpreadMinAngle,
-                weaponConfig.CoreConfig.WeaponSpreadMaxAngle);
+            AimAngle = Mathf.Clamp(AimAngle, WeaponConfig.CoreConfig.WeaponRangeMinAngle,
+                WeaponConfig.CoreConfig.WeaponRangeMaxAngle);
+            WeaponSpread = Mathf.Clamp(WeaponSpread, WeaponConfig.CoreConfig.WeaponSpreadMinAngle,
+                WeaponConfig.CoreConfig.WeaponSpreadMaxAngle);
 
             _isAiming = true;
         }
@@ -82,10 +82,10 @@ namespace Weapon.BaseGun.BaseDoubleBarrelShotgun.DoubleBarrelShotgun
             WeaponSpread += 5 * Time.deltaTime;
             AimAngle += 10 * Time.deltaTime;
 
-            AimAngle = Mathf.Clamp(AimAngle, weaponConfig.CoreConfig.WeaponRangeMinAngle,
-                weaponConfig.CoreConfig.WeaponRangeMaxAngle);
-            WeaponSpread = Mathf.Clamp(WeaponSpread, weaponConfig.CoreConfig.WeaponSpreadMinAngle,
-                weaponConfig.CoreConfig.WeaponSpreadMaxAngle);
+            AimAngle = Mathf.Clamp(AimAngle, WeaponConfig.CoreConfig.WeaponRangeMinAngle,
+                WeaponConfig.CoreConfig.WeaponRangeMaxAngle);
+            WeaponSpread = Mathf.Clamp(WeaponSpread, WeaponConfig.CoreConfig.WeaponSpreadMinAngle,
+                WeaponConfig.CoreConfig.WeaponSpreadMaxAngle);
 
             _isAiming = false;
         }
@@ -93,7 +93,7 @@ namespace Weapon.BaseGun.BaseDoubleBarrelShotgun.DoubleBarrelShotgun
         public override bool CanAim()
         {
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            return WeaponSpread == weaponConfig.CoreConfig.WeaponSpreadMaxAngle && _isAiming == false;
+            return WeaponSpread == WeaponConfig.CoreConfig.WeaponSpreadMaxAngle && _isAiming == false;
         }
 
         public override bool CanShoot()

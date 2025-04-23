@@ -73,14 +73,9 @@ namespace Weapon.BaseWeapon.Gun.Shotgun
                 WeaponRangeMaxAngle = 40,
                 WeaponSpreadMaxAngle = 20,
                 WeaponSpreadMinAngle = 5,
-                magazineSize = 5,
                 magazineCapacity = 5,
                 maxAmmoCapacity = 40,
             };
-
-            WeaponData = new WeaponConfig(baseData, rangeData);
-
-            WeaponInterface?.InitializeConfig(WeaponData);
         }
 
         private void OnInitializeWeaponAction()
@@ -136,21 +131,21 @@ namespace Weapon.BaseWeapon.Gun.Shotgun
                 {
                     if (_meshFilter != null)
                     {
-                        _meshFilter.mesh = WeaponInterface.AimMesh(transform);
+                        //_meshFilter.mesh = WeaponInterface.AimMesh(transform);
                     }
 
-                    WeaponInterface.HasNoAim();
+                    //WeaponInterface.HasNoAim();
                 }
 
                 if (_isAiming)
                 {
                     if (_meshFilter != null)
                     {
-                        _meshFilter.mesh = WeaponInterface.AimMesh(transform);
+                        //_meshFilter.mesh = WeaponInterface.AimMesh(transform);
                     }
 
 
-                    WeaponInterface.HasAim();
+                   // WeaponInterface.HasAim();
                 }
             }
             

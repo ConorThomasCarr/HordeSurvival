@@ -1,26 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9143414740837079128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b00045f12942b46c698459096c89274e, type: 3}
-  m_Name: FullScreenPassRendererFeature
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  injectionPoint: 450
-  fetchColorBuffer: 1
-  requirements: 4
-  passMaterial: {fileID: 2100000, guid: f3caa22ae3b02ca4582ae24851789578, type: 2}
-  passIndex: 0
-  bindDepthStencilAttachment: 1
-  m_Version: 1
---- !u!114 &-9116950397874475254
+--- !u!114 &-6115898118597068003
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -34,41 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   m_Shader: {fileID: 4800000, guid: 0f854b35a0cf61a429bd5dcfea30eddd, type: 3}
---- !u!114 &-4480897101547574992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
-  m_Name: ScreenSpaceAmbientOcclusion
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  m_Settings:
-    AOMethod: 1
-    Downsample: 1
-    AfterOpaque: 1
-    Source: 1
-    NormalSamples: 2
-    Intensity: 1
-    DirectLightingStrength: 1
-    Radius: 2
-    Samples: 0
-    BlurQuality: 0
-    Falloff: 20
-    SampleCount: -1
-  m_BlueNoise256Textures:
-  - {fileID: 2800000, guid: 36f118343fc974119bee3d09e2111500, type: 3}
-  - {fileID: 2800000, guid: 4b7b083e6b6734e8bb2838b0b50a0bc8, type: 3}
-  - {fileID: 2800000, guid: c06cc21c692f94f5fb5206247191eeee, type: 3}
-  - {fileID: 2800000, guid: cb76dd40fa7654f9587f6a344f125c9a, type: 3}
-  - {fileID: 2800000, guid: e32226222ff144b24bf3a5a451de54bc, type: 3}
-  - {fileID: 2800000, guid: 3302065f671a8450b82c9ddf07426f3a, type: 3}
-  - {fileID: 2800000, guid: 56a77a3e8d64f47b6afe9e3c95cb57d5, type: 3}
-  m_Shader: {fileID: 4800000, guid: 0849e84e3d62649e8882e9d6f056a017, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,20 +39,22 @@ MonoBehaviour:
     probeSamplingDebugTexture: {fileID: 2800000, guid: 24ec0e140fb444a44ab96ee80844e18e, type: 3}
     probeVolumeBlendStatesCS: {fileID: 7200000, guid: b9a23f869c4fd45f19c5ada54dd82176, type: 3}
   m_RendererFeatures:
-  - {fileID: -4480897101547574992}
-  - {fileID: -9116950397874475254}
-  - {fileID: -9143414740837079128}
-  m_RendererFeatureMap: 30e92db3d3a7d0c10aefd5b3ea157a81a8e755b2bc101c81
+  - {fileID: 3605394881649314740}
+  - {fileID: -6115898118597068003}
+  - {fileID: 7655277963720959290}
+  - {fileID: 7685831575481339345}
+  - {fileID: 5982768370573467748}
+  m_RendererFeatureMap: b40bb8eb8aef08321dbb8a8610f71fab3aa576a4bf023d6ad1cd0bbc188fa96a6460798d22100753
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   m_AssetVersion: 2
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8183
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8183
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 2
@@ -117,9 +64,148 @@ MonoBehaviour:
     zFailOperation: 0
   m_ShadowTransparentReceive: 0
   m_RenderingMode: 0
-  m_DepthPrimingMode: 1
+  m_DepthPrimingMode: 0
   m_CopyDepthMode: 0
   m_DepthAttachmentFormat: 0
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
+--- !u!114 &3605394881649314740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
+  m_Name: ScreenSpaceAmbientOcclusion
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  m_Settings:
+    AOMethod: 0
+    Downsample: 0
+    AfterOpaque: 0
+    Source: 1
+    NormalSamples: 1
+    Intensity: 3
+    DirectLightingStrength: 0.25
+    Radius: 0.035
+    Samples: 1
+    BlurQuality: 0
+    Falloff: 100
+    SampleCount: -1
+  m_BlueNoise256Textures:
+  - {fileID: 2800000, guid: 36f118343fc974119bee3d09e2111500, type: 3}
+  - {fileID: 2800000, guid: 4b7b083e6b6734e8bb2838b0b50a0bc8, type: 3}
+  - {fileID: 2800000, guid: c06cc21c692f94f5fb5206247191eeee, type: 3}
+  - {fileID: 2800000, guid: cb76dd40fa7654f9587f6a344f125c9a, type: 3}
+  - {fileID: 2800000, guid: e32226222ff144b24bf3a5a451de54bc, type: 3}
+  - {fileID: 2800000, guid: 3302065f671a8450b82c9ddf07426f3a, type: 3}
+  - {fileID: 2800000, guid: 56a77a3e8d64f47b6afe9e3c95cb57d5, type: 3}
+  m_Shader: {fileID: 4800000, guid: 0849e84e3d62649e8882e9d6f056a017, type: 3}
+--- !u!114 &5982768370573467748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
+  m_Name: ' UI Render'
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    passTag: ' UI Render'
+    Event: 300
+    filterSettings:
+      RenderQueueType: 1
+      LayerMask:
+        serializedVersion: 2
+        m_Bits: 32
+      PassNames: []
+    overrideMaterial: {fileID: 0}
+    overrideMaterialPassIndex: 0
+    overrideShader: {fileID: 0}
+    overrideShaderPassIndex: 0
+    overrideMode: 0
+    overrideDepthState: 1
+    depthCompareFunction: 6
+    enableWrite: 1
+    stencilSettings:
+      overrideStencilState: 0
+      stencilReference: 0
+      stencilCompareFunction: 8
+      passOperation: 0
+      failOperation: 0
+      zFailOperation: 0
+    cameraSettings:
+      overrideCamera: 0
+      restoreCamera: 1
+      offset: {x: 0, y: 0, z: 0, w: 0}
+      cameraFieldOfView: 60
+--- !u!114 &7655277963720959290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b00045f12942b46c698459096c89274e, type: 3}
+  m_Name: Retro TV
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  injectionPoint: 550
+  fetchColorBuffer: 1
+  requirements: 4
+  passMaterial: {fileID: 2100000, guid: f3caa22ae3b02ca4582ae24851789578, type: 2}
+  passIndex: 0
+  bindDepthStencilAttachment: 1
+  m_Version: 1
+--- !u!114 &7685831575481339345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
+  m_Name: RenderObjects
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    passTag: RenderObjects
+    Event: 450
+    filterSettings:
+      RenderQueueType: 0
+      LayerMask:
+        serializedVersion: 2
+        m_Bits: 384
+      PassNames: []
+    overrideMaterial: {fileID: 0}
+    overrideMaterialPassIndex: 0
+    overrideShader: {fileID: 0}
+    overrideShaderPassIndex: 0
+    overrideMode: 0
+    overrideDepthState: 1
+    depthCompareFunction: 8
+    enableWrite: 1
+    stencilSettings:
+      overrideStencilState: 0
+      stencilReference: 0
+      stencilCompareFunction: 8
+      passOperation: 0
+      failOperation: 0
+      zFailOperation: 0
+    cameraSettings:
+      overrideCamera: 0
+      restoreCamera: 1
+      offset: {x: 0, y: 0, z: 0, w: 0}
+      cameraFieldOfView: 60

@@ -11,143 +11,68 @@ namespace AI.BaseCharacters.Undead.BaseZombie.Zombie
     public class Zombie : BaseZombie
     {
         private IUndeadNpc Npc { get; set; }
-
+        
+        private GenerateRandomSearchDestination Grsd { get; set; }
+        
         private bool _hasEnteredState;
 
         private bool _hasExitedState;
 
         private bool _hasEnteredAction;
-
+        
         private bool _hasExitedAction;
         
-        private GenerateRandomSearchDestination Grsd { get; set; }
-
-        private bool _heardPlayer;
-
         private bool _sightedPlayer;
         
         private bool _targetIsInRange;
+        
+        public override void InitializeEvents()
+        {
+            EventManager.AddListener<OnExitState>(ExitState);
+            EventManager.AddListener<OnEnterState>(EnterState);
 
-        #region Initialize
+            EventManager.AddListener<OnExitAction>(ExitAction);
+            EventManager.AddListener<OnEnterAction>(EnterAction);
+            
+            EventManager.AddListener<OnChangeTask>(OnChangeTask);
+            
+            EventManager.AddListener<OnGrsdGenerateArrayRowAndColum>(OnGrsdGenerateArrayRowAndColum);    
+            EventManager.AddListener<OnGrsdClearArrayRowAndColum>(OnGrsdClearArrayRowAndColum);
+            
+            EventManager.AddListener<OnTargetSighted>(SightedTarget);
+            EventManager.AddListener<OnTargetIsInRange>(TargetIsInRange);
+            
+            _hasEnteredState = false;
+            _hasExitedState = false;
+
+            _hasEnteredAction = false;
+            _hasExitedAction = false;
+            
+            _sightedPlayer = false;
+            _targetIsInRange = false;
+        }
 
         public override void InitializeNpc(INpc iNpc)
         {
             Npc = (IUndeadNpc)iNpc;
         }
 
-        public override void InitializeEvents()
-        {
-            EventManager.AddListener<OnExitState>(ExitState);
-            EventManager.AddListener<OnEnterState>(EnterState);
-            
-            EventManager.AddListener<OnExitAction>(ExitAction);
-            EventManager.AddListener<OnEnterAction>(EnterAction);
-            
-            EventManager.AddListener<OnChangeTask>(OnChangeTask);
-            
-            EventManager.AddListener<OnContinueTask>(ContinueTask);
-            EventManager.AddListener<OnDiscontinueTask>(DiscontinueTask);
-            
-            EventManager.AddListener<OnTargetHeard>(HeardPlayerNoise);
-            EventManager.AddListener<OnTargetSighted>(SightedTarget);
-            EventManager.AddListener<OnTargetIsInRange>(TargetIsInRange);
-
-            EventManager.AddListener<OnGrsdGenerateArrayRowAndColum>(OnGrsdGenerateArrayRowAndColum);    
-            EventManager.AddListener<OnGrsdClearArrayRowAndColum>(OnGrsdClearArrayRowAndColum);
-           
-            OnTaskChanged += ChangeTask;
-            
-            _hasEnteredState = false;
-            _hasExitedState = false;
-            
-            _hasEnteredAction = false;
-            _hasExitedAction = false;
-        }
-
+        
         public override void InitializeConfig(CharacterConfig characterConfig)
         {
             CharConfig = characterConfig;
             
             Grsd = new GenerateRandomSearchDestination();
+           
             Grsd.Initialize(this);
         }
 
-        #endregion Initialize
-
-        #region Task Management
-
-        private void ContinueTask(OnContinueTask onContinueTask)
+        
+        private void EnterState(OnEnterState enterState)
         {
-            if (CheckSenderName(onContinueTask.Sender))
+            if (CheckSenderName(enterState.Sender))
             {
-                if (ContinueTaskCondition())
-                {
-                    var evtContinueAction = FsmActionEvents.OnContinueAction;
-                    evtContinueAction.Sender = CharConfig.NpcGeneralConfig.Name;
-                    EventManager.Broadcast(evtContinueAction);
-                }
-            }
-        }
-
-        private void OnChangeTask(OnChangeTask onChangeTask)
-        {
-            if (CheckSenderName(onChangeTask.StateSender)
-                && CheckSenderName(onChangeTask.ActionSender)
-                && onChangeTask.action != FsmActionPhase.None
-                && onChangeTask.state != FsmStatePhase.None)
-            {
-                Npc.StatePhaseChanged?.Invoke(onChangeTask.state);
-                Npc.ActionPhaseChanged?.Invoke(onChangeTask.action);
-            }
-        }
-
-        private void ChangeTask(FsmStatePhase nextPhase, FsmActionPhase nextAction)
-        {
-            Npc.StatePhaseChanged?.Invoke(nextPhase);
-            Npc.ActionPhaseChanged?.Invoke(nextAction);
-        }
-
-        public override bool ContinueTaskCondition()
-        {
-            var continueCondition = (!AgentHasPath());
-            return continueCondition;
-        }
-
-        private bool DiscontinueTaskCondition()
-        {
-            var discontinueCondition = (ExitedState() && ExitedAction());
-            return discontinueCondition;
-        }
-
-        private void DiscontinueTask(OnDiscontinueTask onDiscontinueTask)
-        {
-            if (CheckSenderName(onDiscontinueTask.Sender) && DiscontinueTaskCondition())
-            {
-                ChangeTask(FsmStatePhase.Idle, FsmActionPhase.Explore);
-            }
-        }
-
-        public override bool EnterTaskCondition()
-        {
-            var enterCondition = (EnteredState() && EnteredAction());
-            return enterCondition;
-        }
-
-        public override bool ExitTaskCondition()
-        {
-            var exitCondition = (ExitedState() && ExitedAction());
-            return exitCondition;
-        }
-
-        #endregion Task Management
-
-        #region State Management
-
-        private void EnterState(OnEnterState onEnter)
-        {
-            if (CheckSenderName(onEnter.Sender))
-            {
-                _hasEnteredState = onEnter.Enter;
+                _hasEnteredState = enterState.Enter;
                 _hasExitedState = false;
 
                 var evtOnEnterTaskStateCondition = FsmStateEvents.OnEnterTaskStateCondition;
@@ -157,11 +82,11 @@ namespace AI.BaseCharacters.Undead.BaseZombie.Zombie
             }
         }
 
-        private void ExitState(OnExitState onExit)
+        private void ExitState(OnExitState exitState)
         {
-            if (CheckSenderName(onExit.Sender))
+            if (CheckSenderName(exitState.Sender))
             {
-                _hasExitedState = onExit.Exited;
+                _hasExitedState = exitState.Exited;
                 _hasEnteredState = false;
 
                 var evtOnExitTaskStateCondition = FsmStateEvents.OnExitTaskStateCondition;
@@ -172,21 +97,7 @@ namespace AI.BaseCharacters.Undead.BaseZombie.Zombie
 
             }
         }
-
-        public override bool EnteredState()
-        {
-            return _hasEnteredState;
-        }
-
-        public override bool ExitedState()
-        {
-            return _hasExitedState;
-        }
-
-        #endregion State Management
-
-        #region Action Management
-
+        
         private void EnterAction(OnEnterAction enterAction)
         {
             if (CheckSenderName(enterAction.Sender))
@@ -214,64 +125,19 @@ namespace AI.BaseCharacters.Undead.BaseZombie.Zombie
                 EventManager.Broadcast(evtOnExitTaskActionCondition);
             }
         }
-
-        public override bool EnteredAction()
-        {
-            return _hasEnteredAction;
-        }
-
-        public override bool ExitedAction()
-        {
-            return _hasExitedAction;
-        }
-
-        #endregion Action Management
-
-        private void MoveCharacter(OnMoveCharacter moveTo)
-        {
-          SetDestination(moveTo.Position);
-        }
         
-        public override void SetDestination(Vector3 destination)
+        private void OnChangeTask(OnChangeTask onChangeTask)
         {
-            if (CharConfig.NavmeshConfig.Agent.destination != destination)
+            if (CheckSenderName(onChangeTask.StateSender)
+                && CheckSenderName(onChangeTask.ActionSender) 
+                && onChangeTask.action != FsmActionPhase.None && onChangeTask.state != FsmStatePhase.None)
             {
-                if (!CharConfig.NavmeshConfig.Agent.hasPath)
-                {
-                    var evtDiscontinueAction = FsmActionEvents.OnDiscontinueAction;
-                    evtDiscontinueAction.Sender = CharConfig.NpcGeneralConfig.Name;
-                    EventManager.Broadcast(evtDiscontinueAction);
-
-                }
-
-                CharConfig.NavmeshConfig.Agent.destination = destination;
-                
+                Npc.StatePhaseChanged?.Invoke(onChangeTask.state);
+                Npc.ActionPhaseChanged?.Invoke(onChangeTask.action);
             }
         }
-
-        private void OnDestination(OnDestination onDestination)
-        {
-            if (CheckSenderName(onDestination.Sender))
-            {
-                CharConfig.NavmeshConfig.Agent.isStopped = false;
-            }
-        }
-
-        public override bool CheckSenderName(string name)
-        {
-            var sender = (CharConfig.NpcGeneralConfig.Name == name);
-
-            return sender;
-        }
-
-        public override bool AgentHasPath()
-        {
-            var hasPath = (CharConfig.NavmeshConfig.Agent.hasPath);
-
-            return hasPath;
-        }
         
-      
+        
         private void OnGrsdGenerateArrayRowAndColum(OnGrsdGenerateArrayRowAndColum onGrsdGenerateArrayRowAndColum)
         {
             if (CheckSenderName(onGrsdGenerateArrayRowAndColum.Sender))
@@ -287,21 +153,25 @@ namespace AI.BaseCharacters.Undead.BaseZombie.Zombie
                 Grsd.ClearArrayRowAndColumn();
             }
         }
-        
-        
-        private void HeardPlayerNoise(OnTargetHeard noise)
+
+        public override bool CheckSenderName(string name)
         {
-            if (CheckSenderName(noise.Sender) && !_sightedPlayer && !_heardPlayer && !_targetIsInRange)
-            {
-                var evtOnDiscontinueActionToSearch = FsmActionEvents.OnDiscontinueActionToSearch;
-                evtOnDiscontinueActionToSearch.Sender = CharConfig.NpcGeneralConfig.Name;
-                EventManager.Broadcast(evtOnDiscontinueActionToSearch);
-                
-                _heardPlayer = noise.Heard;
-                SetDestination(noise.SoundLocation);
-            }
+            return (name == CharConfig.NpcGeneralConfig.Name);
         }
 
+        public override bool AgentHasPath()
+        {
+            return false;
+        }
+
+        public override void SetDestination(Vector3 destination)
+        {
+            if (CharConfig.NavmeshConfig.Agent.destination != destination)
+            {
+                CharConfig.NavmeshConfig.Agent.destination = destination;
+            }
+        }
+        
         private void SightedTarget(OnTargetSighted sighted)
         {
             if (CheckSenderName(sighted.Sender) && !_sightedPlayer && !_targetIsInRange)
@@ -322,58 +192,28 @@ namespace AI.BaseCharacters.Undead.BaseZombie.Zombie
                 SetDestination(sighted.SightedLocation);
             }
         }
-        
+
         private void TargetIsInRange(OnTargetIsInRange isInRange)
         {
             if (CheckSenderName(isInRange.Sender) && !_targetIsInRange)
             {
                 //Debug.LogError("Target Is In Range: " + isInRange.Sender);
-                
+
                 var evtOnDiscontinueActionToCombat = FsmActionEvents.OnDiscontinueActionToCombat;
                 evtOnDiscontinueActionToCombat.Sender = CharConfig.NpcGeneralConfig.Name;
                 EventManager.Broadcast(evtOnDiscontinueActionToCombat);
-                
+
                 SetTarget(isInRange.Target);
-                
+
                 SetDestination(isInRange.Target.transform.position);
 
-                _targetIsInRange = isInRange.Combat;
+                _targetIsInRange = true;
             }
-            
+
             if (CheckSenderName(isInRange.Sender) && _targetIsInRange)
             {
-                SetDestination(isInRange.Target.transform.position);
+                SetDestination(Player.transform.position);
             }
-        }
-
-
-        public bool HeardTarget()
-        {
-            return  _heardPlayer;
-        }
-
-        public bool SightedTarget()
-        {
-            return _sightedPlayer;
-        }
-
-        public bool TargetInRange()
-        {
-            return _targetIsInRange;
-        }
-
-        public bool GrsdHasGenerated()
-        {
-            var hasGenerated = (Grsd.hasGenerateArrayRowAndColum);
-            
-            return hasGenerated;
-        }
-
-        public bool GrsdHasCleared()
-        {
-            var hasCleared = (Grsd.hasClearArrayRowAndColumn);
-            
-            return hasCleared;
         }
         
         private void SetTarget(GameObject target)
@@ -384,8 +224,9 @@ namespace AI.BaseCharacters.Undead.BaseZombie.Zombie
             }
         }
         
-        public GameObject Player {get;set;}
+ 
     }
+
 }
 
 

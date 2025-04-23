@@ -4,32 +4,21 @@ using UnityEngine;
 
 public class Projectile : BaseProjectile
 {
-    public float Radius = 0.01f;
-   
     public Transform Root;
     
     public float MaxLifeTime = 5f;
     
     public float Speed = 20f;
     
-    public float TrajectoryCorrectionDistance = -1;
-    
-    public bool InheritWeaponVelocity = false;
-
     BaseProjectile m_ProjectileBase;
    
     Vector3 m_LastRootPosition;
    
     Vector3 m_Velocity;
-
-    private bool m_HasTrajectoryOverride = true;
+    
   
     float m_ShootTime;
-   
-    Vector3 m_TrajectoryCorrectionVector;
-  
-    Vector3 m_ConsumedTrajectoryCorrectionVector;
-
+    
     private Vector3 start;
     
 
@@ -68,7 +57,27 @@ public class Projectile : BaseProjectile
             BulletObjectPool.Instance.AddProjectilesPooledObject(this);
         }
     }
-    
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            other.gameObject.GetComponent<Health>().TakeDamage(10);
+            BulletObjectPool.Instance.AddProjectilesPooledObject(this);
+        }
+        
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.gameObject.GetComponent<Health>().TakeDamage(10);
+            BulletObjectPool.Instance.AddProjectilesPooledObject(this);
+        }
+        
+        if (other.gameObject.CompareTag("Wall"))
+        {
+            BulletObjectPool.Instance.AddProjectilesPooledObject(this);
+        }
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(start, transform.position);

@@ -61,6 +61,8 @@ namespace AI.BaseCharacters.Undead.BaseZombie
         public virtual void SetDestination(Vector3 destination){ }
 
         #endregion AI
+        
+        public GameObject Player {get;set;}
     }
 }
 

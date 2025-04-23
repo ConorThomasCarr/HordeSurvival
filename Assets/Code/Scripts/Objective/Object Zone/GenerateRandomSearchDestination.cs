@@ -36,7 +36,7 @@ public class GenerateRandomSearchDestination
         else
         {
             var evtExit = SearchAreaObjective.OnCreatePoint;
-            evtExit.ObjectiveIndex = (Random.Range(1, 5)) - 1;
+            evtExit.ObjectiveIndex = Random.Range(0, ObjectiveZone.Instance.ObjectiveCount);
             evtExit.SearchPositionArrayRow = _searchPositionArrayRow;
             evtExit.SearchPositionArrayColumn = _searchPositionArrayColumn;
             EventManager.Broadcast(evtExit);

@@ -55,6 +55,7 @@ public class NoneAction : BaseActions
     {
         if (EnteredAction && EnterTaskActionCondition)
         {
+            Debug.Log("Update Action None");
         }
 
         if (ExitTaskActionCondition)

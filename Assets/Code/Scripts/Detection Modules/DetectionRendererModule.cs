@@ -17,6 +17,8 @@ public class DetectionRendererModule : MonoBehaviour
     
     private bool _isShowingMesh;
     
+    private Canvas _canvas;
+    
     public void Awake()
     {
         EventManager.AddListener<ShowMesh>(OnShowMesh);
@@ -28,12 +30,13 @@ public class DetectionRendererModule : MonoBehaviour
         _hideMeshCoroutine = HideMeshCoroutine();
         
         _characterMaterial = GetComponent<Renderer>().material;
+        _canvas = transform.parent.Find("Character UI").GetComponent<Canvas>();
     }
     
 
     private void OnShowMesh(ShowMesh showMesh)
     {
-        if (showMesh.ReceiverName == gameObject.name && !_isShowingMesh)
+        if (showMesh.ReceiverName == gameObject.transform.parent.name && !_isShowingMesh)
         {
             _detectionAge = showMesh.DetectionAge;
             StartCoroutine(_detectionCoroutine);
@@ -45,7 +48,7 @@ public class DetectionRendererModule : MonoBehaviour
     
     private void OnHideMesh(HideMesh hideMesh)
     {
-        if (hideMesh.ReceiverName == gameObject.name)
+        if (hideMesh.ReceiverName == gameObject.transform.parent.name)
         {
             StopCoroutine(_detectionCoroutine);
             StartCoroutine(_hideMeshCoroutine);
@@ -60,7 +63,7 @@ public class DetectionRendererModule : MonoBehaviour
            yield return new WaitForSeconds(_detectionAge);
 
            var evtMeshIsDetected = DetectionEvent.MeshIsDetected;
-           evtMeshIsDetected.ReceiverName = gameObject.name;
+           evtMeshIsDetected.ReceiverName = gameObject.transform.parent.name;
            evtMeshIsDetected.ReceiverObject = gameObject;
            
            EventManager.Broadcast(evtMeshIsDetected);
@@ -87,6 +90,8 @@ public class DetectionRendererModule : MonoBehaviour
                yield return null;
            }
            
+           _canvas.gameObject.SetActive(true);
+           
            StopCoroutine(_showMeshCoroutine);
         }
         
@@ -111,6 +116,8 @@ public class DetectionRendererModule : MonoBehaviour
                 yield return null;
             }
            
+            _canvas.gameObject.SetActive(false);
+            
             StopCoroutine(_hideMeshCoroutine);
         }
         

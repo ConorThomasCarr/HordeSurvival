@@ -1,6 +1,10 @@
 using System;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using Weapon.BaseGun;
+using Weapon.BaseWeapon.Gun.Pistol.Data;
 using Weapon.BaseWeapon.RangeWeapons;
 using Weapon.RangeWeaponConstructors;
 
@@ -12,16 +16,29 @@ namespace Weapon.BaseWeapon.Gun.Pistol
 
         private bool _isAiming;
 
+        private bool _isReloading;
+
         private bool _actionAllowed;
+
+        public Image reloadImage;
+
+        public TMP_Text ammoText;
+
+        public float reloadTime;
+
+        [SerializeField]
+        private PistolData pistolData;
+        
         public void Awake()
         {
             try
             {
-                _meshFilter = transform.parent.GetChild(2).GetComponent<MeshFilter>();
+                _meshFilter = transform.parent.Find("Gun Aim Angle Mesh").GetComponent<MeshFilter>();
+
             }
             catch
             {
-
+                // ignored
             }
         }
 
@@ -69,18 +86,25 @@ namespace Weapon.BaseWeapon.Gun.Pistol
 
             var rangeData = new WeaponCoreConfig
             {
-                WeaponRangeMinAngle = 5,
-                WeaponRangeMaxAngle = 40,
-                WeaponSpreadMaxAngle = 20,
-                WeaponSpreadMinAngle = 5,
-                magazineSize = 5,
-                magazineCapacity = 5,
-                maxAmmoCapacity = 40,
+                WeaponRangeMinAngle = pistolData.weaponRangeMinAngle,
+                WeaponRangeMaxAngle = pistolData.weaponRangeMaxAngle,
+            
+                WeaponSpreadMaxAngle = pistolData.weaponSpreadMaxAngle,
+                WeaponSpreadMinAngle = pistolData.weaponSpreadMinAngle,
+               
+                magazineCapacity = pistolData.magazineCapacity,
+                maxAmmoCapacity = pistolData.maxAmmoCapacity,
+
+                reloadCooldown = pistolData.reloadCooldown,
+                
+                spreadSpeed = pistolData.spreadSpeed,
+                aimSpeed = pistolData.aimSpeed,
             };
 
-            WeaponData = new WeaponConfig(baseData, rangeData);
-
-            WeaponInterface?.InitializeConfig(WeaponData);
+           WeaponConfig = new WeaponConfig(baseData, rangeData);
+            
+           WeaponInterface?.InitializeConfig(WeaponConfig);
+           
         }
 
         private void OnInitializeWeaponAction()
@@ -89,7 +113,7 @@ namespace Weapon.BaseWeapon.Gun.Pistol
             Reload += OnReload;
             AimIsInProgress += OnAim;
             AimReleased += OnAimReleased;
-            
+
             _actionAllowed = true;
 
         }
@@ -100,7 +124,7 @@ namespace Weapon.BaseWeapon.Gun.Pistol
             Reload -= OnReload;
             AimIsInProgress -= OnAim;
             AimReleased -= OnAimReleased;
-            
+
             _isAiming = false;
             _actionAllowed = false;
         }
@@ -108,7 +132,15 @@ namespace Weapon.BaseWeapon.Gun.Pistol
         private void OnShoot()
         {
             WeaponInterface.Shoot();
+
+            if (ammoText != null)
+            {
+                ammoText.text = WeaponInterface.magazineSize + "\r\n" + "---" + " \r\n" +
+                                WeaponInterface.maxAmmo;
+            }
         }
+
+
 
         private void OnAim()
         {
@@ -126,36 +158,113 @@ namespace Weapon.BaseWeapon.Gun.Pistol
 
         private void OnReload()
         {
-            WeaponInterface.Reload();
+            if (reloadTime == 0)
+            {
+                WeaponInterface.Reload();
+            }
+        }
+
+        private void Start()
+        {
+            if (ammoText != null)
+            {
+                ammoText.text = WeaponInterface.magazineSize + "\r\n" + "---" + " \r\n" +
+                                WeaponInterface.maxAmmo;
+            }
         }
 
         public void Update()
         {
             if (_actionAllowed)
             {
+                if (_meshFilter != null)
+                {
+                    _meshFilter.mesh = WeaponInterface.AimMesh(transform);
+
+                }
+                
                 if (_isAiming == false)
                 {
-                    if (_meshFilter != null)
-                    {
-                        _meshFilter.mesh = WeaponInterface.AimMesh(transform);
-                    }
-
                     WeaponInterface.HasNoAim();
                 }
 
                 if (_isAiming)
                 {
-                    if (_meshFilter != null)
-                    {
-                        _meshFilter.mesh = WeaponInterface.AimMesh(transform);
-                    }
-
-
                     WeaponInterface.HasAim();
                 }
+
+                if (WeaponInterface.isReloading)
+                {
+
+                    if (reloadImage != null)
+                    {
+                        reloadImage.fillAmount = reloadTime / WeaponConfig.CoreConfig.reloadCooldown;
+                    }
+
+                    reloadTime += Time.deltaTime;
+
+                    if (reloadTime >= WeaponConfig.CoreConfig.reloadCooldown)
+                    {
+                        WeaponInterface.Reload();
+
+                        reloadTime = 0;
+
+                        if (reloadImage != null && ammoText != null)
+                        {
+                            reloadImage.fillAmount = 0;
+
+                            ammoText.text = WeaponInterface.magazineSize + "\r\n" + "---" + " \r\n" +
+                                            WeaponInterface.maxAmmo;
+                        }
+                    }
+                }
             }
+            
+            
         }
     }
 }
 
+namespace Weapon.BaseWeapon.Gun.Pistol.Data
+{
+    [Serializable]
+    public struct PistolData
+    {
+        
+        public float weaponRangeMaxAngle {get => _weaponRangeMaxAngle; set => weaponRangeMaxAngle = value;}
+        public float weaponRangeMinAngle {get => _weaponRangeMinAngle; set => weaponRangeMinAngle = value;}
+        
+        public float weaponSpreadMaxAngle {get => _weaponSpreadMaxAngle; set => weaponSpreadMaxAngle = value;}
+        public float weaponSpreadMinAngle {get => _weaponSpreadMinAngle; set => weaponSpreadMinAngle  = value;}
+        
+        public float reloadCooldown {get => _reloadCooldown; set => reloadCooldown = value;}
+        public float swapWeaponCooldown {get => _swapWeaponCooldown; set => swapWeaponCooldown = value;}
+        
+        public int magazineCapacity {get => _magazineCapacity; set => magazineCapacity = value;}
+        public int maxAmmoCapacity {get => _maxAmmoCapacity; set => maxAmmoCapacity = value;}
+        
+        public float spreadSpeed {get => _spreadSpeed ; set =>spreadSpeed  = value;}
+        public float aimSpeed {get => _aimSpeed; set => aimSpeed = value;}
+       
+        [Header ("Weapon Aim Angle")]
+        [SerializeField] private float _weaponRangeMaxAngle;
+        [SerializeField] private float _weaponRangeMinAngle;
+        
+        [Header ("Weapon Spread Angle")]
+        [SerializeField] private float _weaponSpreadMaxAngle;
+        [SerializeField] private float _weaponSpreadMinAngle;
+        
+        [Header ("Weapon Reload")]
+        [SerializeField] private float _reloadCooldown;
+        [SerializeField] private float _swapWeaponCooldown;
+        
+        [Header ("Weapon Ammo")]
+        [SerializeField] private int _magazineCapacity;
+        [SerializeField] private int _maxAmmoCapacity;
+        
+        [Header ("Weapon Aim Speed")]
+        [SerializeField] private float _spreadSpeed;
+        [SerializeField] private float _aimSpeed;
+    }
+}
 

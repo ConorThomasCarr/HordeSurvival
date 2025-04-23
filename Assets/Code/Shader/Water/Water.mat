@@ -56,20 +56,20 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_1: 2
+    - Vector1_1: 50
     - Vector1_2: 86.2
     - Vector1_3caf7808904b4c88b6da8a5333583362: 70.5
     - Vector1_46f0cb1920ea43d890ba2339fcb80f5e: 0.458
-    - Vector1_4ad44bf5f85b41b79c672ecab4ff0aaa: 20
-    - Vector1_74b8001b468d4846b7b6f220fc19bd0c: 2
-    - Vector1_799bc7c4848d4ae58b2f8242c89d166d: 10
-    - Vector1_c12b661977c146d1882cd9884d452372: 2.5
-    - Vector1_da7ad69f795c4198a58ad7fc6b04184c: 10
-    - Vector1_da7ad69f795c4198a58ad7fc6b04184c_1: 20
-    - Vector1_f0497febcad040aebb656f3ab28c95a8: 0.4
+    - Vector1_4ad44bf5f85b41b79c672ecab4ff0aaa: 200
+    - Vector1_74b8001b468d4846b7b6f220fc19bd0c: 100
+    - Vector1_799bc7c4848d4ae58b2f8242c89d166d: 100
+    - Vector1_c12b661977c146d1882cd9884d452372: 5
+    - Vector1_da7ad69f795c4198a58ad7fc6b04184c: 25
+    - Vector1_da7ad69f795c4198a58ad7fc6b04184c_1: 12.5
+    - Vector1_f0497febcad040aebb656f3ab28c95a8: 0.3
     - Vector1_f68f1b73a3994f00aff9da091123484c: -0.5
     - Vector1_f68f1b73a3994f00aff9da091123484c_1: 0.5
-    - Vector1_f68f1b73a3994f00aff9da091123484c_2: 20
+    - Vector1_f68f1b73a3994f00aff9da091123484c_2: 2
     - Vector1_fc1f7ba5dcd1483b95425387f76604df: -0.05
     - Vector1_fc1f7ba5dcd1483b95425387f76604df_1: 0.05
     - _AlphaClip: 0
@@ -78,7 +78,7 @@ Material:
     - _BlendModePreserveSpecular: 1
     - _Blend_value: 0.5
     - _CastShadows: 1
-    - _Cull: 2
+    - _Cull: 0
     - _DstBlend: 10
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -90,7 +90,7 @@ Material:
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - Color_14c0f6456c9a4124bb960bed185f6f0c: {r: 0.29716977, g: 0.7225284, b: 1, a: 0.70980394}
-    - Color_8215b045184d4c9f900cd67d90fd4309: {r: 0.2963688, g: 0.3587628, b: 0.5660378, a: 0.6862745}
+    - Color_14c0f6456c9a4124bb960bed185f6f0c: {r: 0.061921515, g: 0.5707547, b: 0.51293254, a: 0.5764706}
+    - Color_8215b045184d4c9f900cd67d90fd4309: {r: 0.04532307, g: 0.2541927, b: 0.4575472, a: 0.6862745}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

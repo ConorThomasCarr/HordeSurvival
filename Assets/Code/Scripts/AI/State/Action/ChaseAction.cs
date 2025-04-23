@@ -137,8 +137,6 @@ public class ChaseAction : BaseActions
     {
         if ( onDiscontinueActionToCombat.Sender == CharacterConfig.NpcGeneralConfig.Name)
         {
-            Debug.Log( onDiscontinueActionToCombat.Sender + ": On Discontinue Action To Combat");
-            
             var evtOnChangeTask = AITaskEvents.OnChangeTask;
             evtOnChangeTask.action = ActionConfig.ActionList[3];
             EventManager.Broadcast(evtOnChangeTask);

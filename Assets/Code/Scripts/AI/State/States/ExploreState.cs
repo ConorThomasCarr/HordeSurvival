@@ -82,9 +82,9 @@ public class ExploreState : BaseState
 
             if (AtDestination())
             {
-                var evtOnGradClearArrayRowAndColum = AITaskEvents.OnGrsdGenerateArrayRowAndColum;
-                evtOnGradClearArrayRowAndColum.Sender = CharacterConfig.NpcGeneralConfig.Name;
-                EventManager.Broadcast(evtOnGradClearArrayRowAndColum);
+                var evtOnGrsdGenerateArrayRowAndColum = AITaskEvents.OnGrsdGenerateArrayRowAndColum;
+                evtOnGrsdGenerateArrayRowAndColum.Sender = CharacterConfig.NpcGeneralConfig.Name;
+                EventManager.Broadcast(evtOnGrsdGenerateArrayRowAndColum);
             }
         }
 
@@ -99,7 +99,7 @@ public class ExploreState : BaseState
 
     private bool AtDestination()
     {
-        if (CharacterConfig.NavmeshConfig.Agent.remainingDistance <= 2)
+        if (CharacterConfig.NavmeshConfig.Agent.hasPath && CharacterConfig.NavmeshConfig.Agent.remainingDistance <= 2)
         {
             return true;
         }

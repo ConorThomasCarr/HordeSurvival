@@ -7,15 +7,15 @@ namespace Weapon.BaseWeapon.Gun
 {
     public abstract class Gun : MonoBehaviour, IWeapon
     {
-        public WeaponConfig WeaponData {get;set;}
-    
+        public WeaponConfig WeaponConfig {get; set;}
+        
         public IGun WeaponInterface {get; set;}
     
         public UnityAction InitializeConstruction { get; set; }
         
         public UnityAction <IGun> InitializeGun { get; set; }
       
-        public UnityAction InitializeConfigs { get; set; } 
+        public UnityAction  InitializeConfigs { get; set; } 
     
         public UnityAction InitializeWeaponAction { get; set; }
     

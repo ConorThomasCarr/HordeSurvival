@@ -158,7 +158,7 @@
                 {
                     "name": "",
                     "id": "63ba9c2d-3e53-4a1c-8621-3c3109096b7e",
-                    "path": "<Gamepad>/leftTrigger",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -180,7 +180,7 @@
                 {
                     "name": "",
                     "id": "f9d341e2-165c-4cd1-9363-7fb8cb456604",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "Hold",
                     "processors": "AxisDeadzone",
                     "groups": ";Gamepad",

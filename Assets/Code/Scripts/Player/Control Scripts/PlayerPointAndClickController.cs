@@ -23,8 +23,6 @@ namespace PlayerControls.PointAndClickControls
                 var evtOnMoveCharacter = AIEvents.OnMoveCharacter;
                 evtOnMoveCharacter.Position = hit.point;
                 EventManager.Broadcast(evtOnMoveCharacter);
-                
-                Debug.Log(hit.point);
             }
         }
     }

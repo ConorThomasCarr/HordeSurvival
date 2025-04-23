@@ -5,15 +5,21 @@ namespace Weapon.BaseGun
 {
     public interface IGun
     {
-        WeaponConfig weaponConfig {get; set;}
+        WeaponConfig WeaponConfig {get; set;}
     
         float WeaponSpread {get; set;}
     
         float AimAngle {get; set;}
+        
+        int magazineSize {get; set;}
+        
+        int maxAmmo {get; set;} 
+        
+        bool isReloading {get; set;}
     
         void InitializeEvents();
 
-        void InitializeConfig(WeaponConfig weaponData);
+        void InitializeConfig(WeaponConfig weaponConfig);
     
         void Shoot();
     
@@ -24,13 +30,15 @@ namespace Weapon.BaseGun
         void HasAim();
 
         public void HasNoAim();
-    
-        bool CanShoot();
-    
+        
         bool CanAim();
-
+        
         bool IsAiming();
-
+        
+        bool CanShoot();
+        
+        bool CanReload();
+        
         Mesh AimMesh(Transform transform);
     }
 }

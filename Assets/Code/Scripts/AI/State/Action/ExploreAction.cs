@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class ExploreAction : BaseActions
 {
@@ -99,6 +100,8 @@ public class ExploreAction : BaseActions
         {
             base.OnDiscontinueAction(onDiscontinueAction);
            
+            Debug.Log("OnDiscontinueAction: " + onDiscontinueAction.Sender);
+            
             var evtDiscontinueState = FsmStateEvents.OnDiscontinueState;
             evtDiscontinueState.Sender = CharacterConfig.NpcGeneralConfig.Name;
             EventManager.Broadcast(evtDiscontinueState);
@@ -137,8 +140,6 @@ public class ExploreAction : BaseActions
     {
         if (onDiscontinueActionToSearch.Sender == CharacterConfig.NpcGeneralConfig.Name)
         {
-            //Debug.Log(onDiscontinueActionToSearch.Sender + ": On Discontinue Action To Search");
-            
             var evtOnChangeTask = AITaskEvents.OnChangeTask;
             evtOnChangeTask.action = ActionConfig.ActionList[1];
             EventManager.Broadcast(evtOnChangeTask);
@@ -158,8 +159,6 @@ public class ExploreAction : BaseActions
     {
         if (onDiscontinueActionToChase.Sender == CharacterConfig.NpcGeneralConfig.Name)
         {
-            //Debug.Log(onDiscontinueActionToChase.Sender + ": On Discontinue Action To Chase");
-            
             var evtOnChangeTask = AITaskEvents.OnChangeTask;
             evtOnChangeTask.action = ActionConfig.ActionList[2];
             EventManager.Broadcast(evtOnChangeTask);
@@ -179,8 +178,6 @@ public class ExploreAction : BaseActions
     {
         if ( onDiscontinueActionToCombat.Sender == CharacterConfig.NpcGeneralConfig.Name)
         {
-            //Debug.Log( onDiscontinueActionToCombat.Sender + ": On Discontinue Action To Combat");
-            
             var evtOnChangeTask = AITaskEvents.OnChangeTask;
             evtOnChangeTask.action = ActionConfig.ActionList[3];
             EventManager.Broadcast(evtOnChangeTask);

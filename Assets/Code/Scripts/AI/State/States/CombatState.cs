@@ -91,7 +91,7 @@ public class CombatState : BaseState
     
     private bool AtDestination()
     {
-        if (CharacterConfig.NavmeshConfig.Agent.remainingDistance <= 2)
+        if (CharacterConfig.NavmeshConfig.Agent.remainingDistance <= 5)
         {
             return true;
         }

@@ -44,7 +44,7 @@ public class HunterSensorMemoryModule : ISensorMemoryModule
         memory.lastSeen = Time.time;
 
         var evtShowMesh = DetectionEvent.ShowMesh;
-        evtShowMesh.ReceiverName = memory.gameObject.name;
+        evtShowMesh.ReceiverName = memory.gameObject.transform.parent.name;
         evtShowMesh.DetectionAge = 2;
         
         EventManager.Broadcast(evtShowMesh);

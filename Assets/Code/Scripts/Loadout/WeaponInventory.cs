@@ -28,8 +28,12 @@ public class WeaponInventory : MonoBehaviour
        
         SwapWeapons += OnSwapWeapons;
     }
-    
-  
+
+    private void Update()
+    {
+       
+    }
+
 
     private void OnEnable()
     {

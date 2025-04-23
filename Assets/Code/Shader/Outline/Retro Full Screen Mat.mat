@@ -37,26 +37,26 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.75
+    - _Alpha: 0.5
     - _Blicking: 1
-    - _Con: 1.01
-    - _Depth_Line: 0.01
-    - _Depth_Line_Bias: 0.9
-    - _Dither_Res: 64
+    - _Con: 1.42
+    - _Depth_Line: 0
+    - _Depth_Line_Bias: 0.7
+    - _Dither_Res: 32
     - _Dither_Res_1: 0
     - _Float: 1.94
-    - _Noise_Amount: 0.25
+    - _Noise_Amount: 0.1
     - _Noise_Scale: 512
-    - _ScanLines: 64
-    - _Scanning_Line_Speed: 1
-    - _Step: 2.8
+    - _ScanLines: 512
+    - _Scanning_Line_Speed: 0.1
+    - _Step: 4.1
     - _con: 0.25
     - _dither_spread: 0.001
     - _dither_spread_1: 1.5
     - _sat: 1
     m_Colors:
-    - _Colour: {r: 1, g: 1, b: 1, a: 1}
-    - _Colour_1: {r: 1, g: 1, b: 1, a: 0.57254905}
+    - _Colour: {r: 0.57474226, g: 0.6462264, b: 0.5669722, a: 1}
+    - _Colour_1: {r: 1, g: 0.8962264, b: 0.8962264, a: 1}
     - _Noise_Speed: {r: 0, g: 0.01, b: 0, a: 0}
     - _Vector2: {r: -0.01, g: 0, b: 0, a: 0}
     - _Vector2_1: {r: 0.01, g: 0, b: 0, a: 0}
